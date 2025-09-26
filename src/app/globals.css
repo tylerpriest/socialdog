@@ -24,3 +24,32 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Fix for input text visibility - ensure inputs have proper text colors */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="url"],
+textarea,
+select {
+  color: #1f2937 !important; /* Always use dark gray text for readability */
+  background-color: #ffffff !important; /* Always use white background for inputs */
+}
+
+/* Dark mode input styling */
+@media (prefers-color-scheme: dark) {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="url"],
+  textarea,
+  select {
+    color: #1f2937 !important; /* Keep dark text even in dark mode for better contrast */
+    background-color: #ffffff !important; /* Keep white background for inputs */
+    border-color: #d1d5db !important; /* Ensure border is visible */
+  }
+}
