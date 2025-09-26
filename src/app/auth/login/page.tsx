@@ -16,7 +16,7 @@ export default function LoginPage() {
               Connect with dog owners in your area
             </p>
           </div>
-          <LoginForm onSuccess={() => console.log('Login successful!')} />
+          <LoginForm />
           <div className="text-center">
             <a href="/auth/register" className="font-medium text-purple-600 hover:text-purple-500">
               Don't have an account? Sign up

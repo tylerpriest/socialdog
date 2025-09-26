@@ -47,7 +47,6 @@ export default function DashboardPage() {
                   </h3>
                   <UserProfileForm
                     profile={mockProfile}
-                    onSuccess={() => console.log('Profile updated!')}
                   />
                 </div>
               </div>

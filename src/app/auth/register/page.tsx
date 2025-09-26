@@ -16,7 +16,7 @@ export default function RegisterPage() {
               Create your account and find perfect playmates for your dog
             </p>
           </div>
-          <RegisterForm onSuccess={() => console.log('Registration successful!')} />
+          <RegisterForm />
           <div className="text-center">
             <a href="/auth/login" className="font-medium text-purple-600 hover:text-purple-500">
               Already have an account? Sign in
