@@ -1,10 +1,12 @@
 // Database types based on Supabase schema
 export interface Profile {
   id: string
+  userId: string
   firstName: string
   lastName: string
   email: string
   location: string
+  locationDisplay?: string
   city: string
   latitude?: number
   longitude?: number
@@ -59,6 +61,7 @@ export interface Dog {
     lat: number
     lng: number
   }
+  locationDisplay?: string
   createdAt: string
   updatedAt: string
   owner?: Profile

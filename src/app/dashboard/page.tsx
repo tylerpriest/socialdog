@@ -6,6 +6,7 @@ import { Navigation } from '@/components/Navigation'
 // Mock profile data for now - will be replaced with real Supabase data
 const mockProfile = {
   id: '123',
+  userId: 'user-123',
   firstName: 'John',
   lastName: 'Doe',
   email: 'john@example.com',
