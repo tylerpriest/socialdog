@@ -183,7 +183,7 @@ export function DogProfileForm({ onSuccess, dogProfile }: DogProfileFormProps) {
           name="name"
           value={formData.name}
           onChange={handleInputChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 text-gray-900 bg-white"
           placeholder="Enter your dog's name"
         />
         {errors.name && (
@@ -201,7 +201,7 @@ export function DogProfileForm({ onSuccess, dogProfile }: DogProfileFormProps) {
           name="breed"
           value={formData.breed}
           onChange={handleInputChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 text-gray-900 bg-white"
           placeholder="e.g., Golden Retriever, Mixed Breed"
         />
         {errors.breed && (
@@ -221,7 +221,7 @@ export function DogProfileForm({ onSuccess, dogProfile }: DogProfileFormProps) {
             value={formData.age}
             onChange={handleInputChange}
             max="25"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 text-gray-900 bg-white"
             placeholder="Age in years"
           />
           {errors.age && (
@@ -238,7 +238,7 @@ export function DogProfileForm({ onSuccess, dogProfile }: DogProfileFormProps) {
             name="gender"
             value={formData.gender}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 text-gray-900 bg-white"
           >
             <option value="male">Male</option>
             <option value="female">Female</option>
@@ -256,7 +256,7 @@ export function DogProfileForm({ onSuccess, dogProfile }: DogProfileFormProps) {
             name="size"
             value={formData.size}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 text-gray-900 bg-white"
           >
             <option value="small">Small (under 25 lbs)</option>
             <option value="medium">Medium (25-60 lbs)</option>
@@ -274,7 +274,7 @@ export function DogProfileForm({ onSuccess, dogProfile }: DogProfileFormProps) {
             name="temperament"
             value={formData.temperament}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 text-gray-900 bg-white"
           >
             <option value="friendly">Friendly</option>
             <option value="playful">Playful</option>
@@ -295,7 +295,7 @@ export function DogProfileForm({ onSuccess, dogProfile }: DogProfileFormProps) {
           value={formData.bio}
           onChange={handleInputChange}
           rows={4}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 text-gray-900 bg-white"
           placeholder="Tell others about your dog's personality, favorite activities, etc."
         />
         <div className="flex justify-between items-center mt-1">

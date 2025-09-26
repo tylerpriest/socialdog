@@ -4,18 +4,24 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { db } from '@/lib/supabase/database'
 import type { User, Session } from '@supabase/supabase-js'
-import type { Profile } from '@/types'
+import type { Profile, GuestLoginOptions, AccountConversionData } from '@/types'
 
 interface AuthContextType {
   user: User | null
   profile: Profile | null
   session: Session | null
   isLoading: boolean
+  isAnonymous: boolean
+  canCreateDogs: boolean
+  canMessage: boolean
+  sessionExpiresAt?: Date
   signUp: (email: string, password: string, userData: SignUpData) => Promise<{ error: Error | null }>
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>
+  signInAsGuest: (options?: GuestLoginOptions) => Promise<{ error: Error | null }>
   signOut: () => Promise<{ error: Error | null }>
   updateProfile: (updates: Partial<Profile>) => Promise<{ error: Error | null }>
   sendPasswordReset: (email: string) => Promise<{ error: Error | null }>
+  convertToAccount: (data: AccountConversionData) => Promise<{ error: Error | null }>
   refreshProfile: () => Promise<void>
 }
 
@@ -45,6 +51,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true)
 
   const supabase = createClient()
+
+  // Computed properties for guest authentication
+  const isAnonymous = Boolean(user?.is_anonymous || profile?.userType === 'guest')
+  const canCreateDogs = !isAnonymous
+  const canMessage = !isAnonymous
+  const sessionExpiresAt = profile?.guestSessionExpiresAt
+    ? new Date(profile.guestSessionExpiresAt)
+    : undefined
 
   useEffect(() => {
     // Get initial session
@@ -164,6 +178,53 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  const signInAsGuest = async (options: GuestLoginOptions = {}) => {
+    try {
+      setIsLoading(true)
+
+      // Sign in anonymously with Supabase
+      const { data: authData, error: authError } = await supabase.auth.signInAnonymously()
+
+      if (authError) {
+        return { error: authError }
+      }
+
+      if (authData.user) {
+        // Create guest profile
+        const sessionDuration = options.sessionDurationHours || 24
+        const expiresAt = new Date()
+        expiresAt.setHours(expiresAt.getHours() + sessionDuration)
+
+        try {
+          const guestProfile: Omit<Profile, 'id' | 'createdAt' | 'updatedAt'> = {
+            userId: authData.user.id,
+            firstName: 'Guest',
+            lastName: 'User',
+            email: '', // Anonymous users don't have emails
+            location: 'New Zealand',
+            city: 'Auckland', // Default location
+            authProvider: 'anonymous',
+            emailVerified: false,
+            userType: 'guest',
+            guestSessionExpiresAt: expiresAt.toISOString()
+          }
+
+          const newProfile = await db.profiles.create(guestProfile)
+          setProfile(newProfile)
+        } catch (profileError) {
+          console.error('Error creating guest profile:', profileError)
+          // Don't return error here - auth worked, profile creation can be retried
+        }
+      }
+
+      return { error: null }
+    } catch (error) {
+      return { error: error as Error }
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   const signOut = async () => {
     try {
       const { error } = await supabase.auth.signOut()
@@ -203,6 +264,48 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  const convertToAccount = async (data: AccountConversionData) => {
+    try {
+      if (!user || !user.is_anonymous || !profile) {
+        return { error: new Error('Can only convert anonymous users to permanent accounts') }
+      }
+
+      setIsLoading(true)
+
+      // Link email/password to the anonymous account
+      const { error: linkError } = await supabase.auth.linkIdentity({
+        type: 'email',
+        email: data.email,
+        password: data.password,
+      })
+
+      if (linkError) {
+        return { error: linkError }
+      }
+
+      // Update profile to permanent user
+      const profileUpdates: Partial<Profile> = {
+        email: data.email,
+        firstName: data.firstName || profile.firstName,
+        lastName: data.lastName || profile.lastName,
+        userType: 'permanent',
+        authProvider: 'email',
+        emailVerified: false, // Will be verified via email confirmation
+        convertedFromGuestAt: new Date().toISOString(),
+        guestSessionExpiresAt: undefined
+      }
+
+      const updatedProfile = await db.profiles.update(profile.id, profileUpdates)
+      setProfile(updatedProfile)
+
+      return { error: null }
+    } catch (error) {
+      return { error: error as Error }
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   const refreshProfile = async () => {
     if (user) {
       await loadUserProfile(user.id)
@@ -214,11 +317,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     profile,
     session,
     isLoading,
+    isAnonymous,
+    canCreateDogs,
+    canMessage,
+    sessionExpiresAt,
     signUp,
     signIn,
+    signInAsGuest,
     signOut,
     updateProfile,
     sendPasswordReset,
+    convertToAccount,
     refreshProfile
   }
 

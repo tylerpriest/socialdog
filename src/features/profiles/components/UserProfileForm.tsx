@@ -6,10 +6,9 @@ import { Profile } from '@/types'
 
 interface UserProfileFormProps {
   profile: Profile
-  onSuccess?: () => void
 }
 
-export function UserProfileForm({ profile, onSuccess }: UserProfileFormProps) {
+export function UserProfileForm({ profile }: UserProfileFormProps) {
   const [firstName, setFirstName] = useState(profile.firstName)
   const [lastName, setLastName] = useState(profile.lastName)
   const [location, setLocation] = useState(profile.location)
@@ -107,8 +106,9 @@ export function UserProfileForm({ profile, onSuccess }: UserProfileFormProps) {
 
       if (error) {
         setUpdateError(error.message)
-      } else if (data && onSuccess) {
-        onSuccess()
+      } else if (data) {
+        // Profile updated successfully
+        setUpdateError('')
       }
     } catch (error) {
       setUpdateError('An unexpected error occurred')
@@ -129,7 +129,7 @@ export function UserProfileForm({ profile, onSuccess }: UserProfileFormProps) {
             type="text"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 text-gray-900 bg-white"
           />
           {errors.firstName && (
             <p className="mt-1 text-sm text-red-600">{errors.firstName}</p>
@@ -145,7 +145,7 @@ export function UserProfileForm({ profile, onSuccess }: UserProfileFormProps) {
             type="text"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
-            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 text-gray-900 bg-white"
           />
           {errors.lastName && (
             <p className="mt-1 text-sm text-red-600">{errors.lastName}</p>
@@ -163,7 +163,7 @@ export function UserProfileForm({ profile, onSuccess }: UserProfileFormProps) {
           placeholder="e.g. Auckland, Wellington"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 text-gray-900 bg-white"
         />
         {errors.location && (
           <p className="mt-1 text-sm text-red-600">{errors.location}</p>
@@ -180,7 +180,7 @@ export function UserProfileForm({ profile, onSuccess }: UserProfileFormProps) {
           placeholder="Tell other dog owners about yourself..."
           value={bio}
           onChange={(e) => setBio(e.target.value)}
-          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 text-gray-900 bg-white"
         />
         <p className="mt-1 text-sm text-gray-500">
           {bio.length}/500 characters

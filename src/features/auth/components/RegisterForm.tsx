@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useAuth } from '@/lib/auth/AuthProvider'
+import { LocationAutocomplete } from '@/components/LocationAutocomplete'
 
 interface RegisterFormProps {
   onSuccess?: () => void
@@ -100,7 +101,7 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
             type="text"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 text-gray-900 bg-white"
           />
           {errors.firstName && (
             <p className="mt-1 text-sm text-red-600">{errors.firstName}</p>
@@ -116,7 +117,7 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
             type="text"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
-            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 text-gray-900 bg-white"
           />
           {errors.lastName && (
             <p className="mt-1 text-sm text-red-600">{errors.lastName}</p>
@@ -133,7 +134,7 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 text-gray-900 bg-white"
         />
         {errors.email && (
           <p className="mt-1 text-sm text-red-600">{errors.email}</p>
@@ -149,7 +150,7 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 text-gray-900 bg-white"
         />
         {errors.password && (
           <p className="mt-1 text-sm text-red-600">{errors.password}</p>
@@ -165,7 +166,7 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 text-gray-900 bg-white"
         />
         {errors.confirmPassword && (
           <p className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>
@@ -176,17 +177,14 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
         <label htmlFor="location" className="block text-sm font-medium text-gray-700">
           Location
         </label>
-        <input
+        <LocationAutocomplete
           id="location"
-          type="text"
-          placeholder="e.g. Auckland, Wellington"
           value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+          onChange={setLocation}
+          placeholder="e.g. Auckland, Wellington"
+          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 text-gray-900 bg-white"
+          error={errors.location}
         />
-        {errors.location && (
-          <p className="mt-1 text-sm text-red-600">{errors.location}</p>
-        )}
       </div>
 
       {authError && (

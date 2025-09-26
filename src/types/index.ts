@@ -13,8 +13,11 @@ export interface Profile {
   age?: number
   bio?: string
   profilePhoto?: string | null
-  authProvider: 'email' | 'google'
+  authProvider: 'email' | 'google' | 'anonymous'
   emailVerified: boolean
+  userType: 'guest' | 'permanent'
+  guestSessionExpiresAt?: string
+  convertedFromGuestAt?: string
   createdAt: string
   updatedAt: string
 }
@@ -246,6 +249,28 @@ export interface PasswordResetToken {
   expiresAt: string
   used: boolean
   createdAt: string
+}
+
+// Guest user authentication
+export interface GuestLoginOptions {
+  sessionDurationHours?: number
+}
+
+export interface AccountConversionData {
+  email: string
+  password: string
+  firstName?: string
+  lastName?: string
+  agreeToTerms: boolean
+}
+
+export interface AuthContextExtended {
+  isAnonymous: boolean
+  canCreateDogs: boolean
+  canMessage: boolean
+  sessionExpiresAt?: Date
+  convertToAccount: (data: AccountConversionData) => Promise<{ error: Error | null }>
+  signInAsGuest: (options?: GuestLoginOptions) => Promise<{ error: Error | null }>
 }
 
 export interface SearchFilters {
