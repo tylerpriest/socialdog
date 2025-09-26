@@ -31,9 +31,12 @@ describe('LoginForm', () => {
     render(<LoginForm />)
 
     const emailInput = screen.getByLabelText(/email/i)
+    const passwordInput = screen.getByLabelText(/password/i)
     const submitButton = screen.getByRole('button', { name: /sign in/i })
 
+    // Fill password first so form validation runs
     await user.type(emailInput, 'invalid')
+    await user.type(passwordInput, 'password123')
     await user.click(submitButton)
 
     await waitFor(() => {
