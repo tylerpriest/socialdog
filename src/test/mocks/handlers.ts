@@ -32,7 +32,7 @@ export const handlers = [
   }),
 
   http.post('/api/dogs', async ({ request }) => {
-    const newDog = await request.json()
+    const newDog = await request.json() as any
     return HttpResponse.json({
       dog: {
         id: '2',
@@ -49,7 +49,11 @@ export const handlers = [
       lastName: 'User',
       email: 'test@example.com',
       location: 'Auckland',
-      createdAt: new Date().toISOString()
+      city: 'Auckland',
+      authProvider: 'email',
+      emailVerified: true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     })
   })
 ]

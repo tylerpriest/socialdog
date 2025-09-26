@@ -23,6 +23,7 @@
 # misc
 .DS_Store
 *.pem
+/Users/tyler/Projects/Chats/Testing
 
 # debug
 npm-debug.log*

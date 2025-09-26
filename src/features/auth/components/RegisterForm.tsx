@@ -1,13 +1,14 @@
 'use client'
 
 import { useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { useAuth } from '@/lib/auth/AuthProvider'
 
 interface RegisterFormProps {
   onSuccess?: () => void
 }
 
 export function RegisterForm({ onSuccess }: RegisterFormProps) {
+  const { signUp } = useAuth()
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
@@ -65,25 +66,20 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
     setIsLoading(true)
     setAuthError('')
 
-    const supabase = createClient()
-
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            firstName: firstName.trim(),
-            lastName: lastName.trim(),
-            location: location.trim()
-          }
-        }
+      const { error } = await signUp(email, password, {
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        location: location.trim()
       })
 
       if (error) {
         setAuthError(error.message)
-      } else if (data.user && onSuccess) {
-        onSuccess()
+      } else {
+        setAuthError('')
+        if (onSuccess) {
+          onSuccess()
+        }
       }
     } catch (error) {
       setAuthError('An unexpected error occurred')

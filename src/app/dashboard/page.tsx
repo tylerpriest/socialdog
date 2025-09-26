@@ -1,4 +1,7 @@
+'use client'
+
 import { UserProfileForm } from '@/features/profiles/components/UserProfileForm'
+import { Navigation } from '@/components/Navigation'
 
 // Mock profile data for now - will be replaced with real Supabase data
 const mockProfile = {
@@ -7,8 +10,10 @@ const mockProfile = {
   lastName: 'Doe',
   email: 'john@example.com',
   location: 'Auckland',
+  city: 'Auckland',
+  authProvider: 'email' as const,
+  emailVerified: true,
   bio: 'Dog lover and trainer with 5 years of experience. Love taking my Golden Retriever Max on adventures around Auckland.',
-  profilePhoto: null,
   createdAt: '2024-01-01T00:00:00Z',
   updatedAt: '2024-01-01T00:00:00Z'
 }
@@ -16,6 +21,8 @@ const mockProfile = {
 export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-gray-50">
+      <Navigation variant="authenticated" />
+
       <div className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="py-6">
@@ -54,7 +61,7 @@ export default function DashboardPage() {
                   </h3>
                   <div className="space-y-3">
                     <a
-                      href="/dogs/create"
+                      href="/dog-profile"
                       className="block w-full text-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700"
                     >
                       Add Your Dog
